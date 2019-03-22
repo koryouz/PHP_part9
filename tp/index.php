@@ -53,13 +53,11 @@ $months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Ao
                                 for ($column = 0; $column <= 6; $column++) {
                                     $idNumb++;
                                     ?><td id="<?= $idNumb ?>" class="<?php
-                                    if ($idNumb < $numbDate) {
-                                        echo 'grey';
-                                    } else if ($idNumb > $total) {
+                                    if ($idNumb <= $numbDate || $idNumb >= $total) {
                                         echo 'grey';
                                     }
                                     ?>"><?php
-                                            if ($idNumb >= $numbDate && $idNumb <= $total) {
+                                            if ($idNumb >= $numbDate && $idNumb < $total) {
                                                 $dateNumb++;
                                                 echo $dateNumb;
                                             }
