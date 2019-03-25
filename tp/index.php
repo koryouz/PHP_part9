@@ -1,5 +1,5 @@
 <?php
-$monthsArray = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Novembre', 'Octobre', 'Decembre'];
+$monthsArray = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'];
 ?> 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
