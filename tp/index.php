@@ -1,5 +1,5 @@
 <?php
-$months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Novembre', 'Octobre', 'Decembre'];
+$monthsArray = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Novembre', 'Octobre', 'Decembre'];
 ?> 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -11,29 +11,48 @@ $months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Ao
     <body>
         <div class="container">
             <div class="row">
-                <form method="post" action="index.php">
+                <form method="post" action="">
                     <select name="months">
                         <?php
-                        $add = 1;
-                        foreach ($months as $value) {
-                            ?><option value="<?= $add ?>"><?= $value ?></option><?php
-                            $add++;
-                        }
-                        ?>
+                        $addMonths = 1;
+                        foreach ($monthsArray as $month) {
+                            ?><option <?php
+                            if (isset($_POST['year']) && isset($_POST['months'])) {
+                                if ($_POST['months'] == $addMonths) {
+                                    echo 'selected';
+                                }
+                            }
+                            ?> value="<?= $addMonths ?>"><?= $month ?></option><?php
+                                $addMonths++;
+                            }
+                            ?>
                     </select>
                     <select name="year">
-                        <?php for ($year = 2020; $year >= 1970; $year--) {
-                            ?><option><?php echo $year; ?></option><?php }
-                        ?>
+                        <?php
+                        $addYear = 1;
+                        for ($year = 2020; $year >= 1970; $year--) {
+                            ?><option
+                            <?php
+                            if (isset($_POST['year']) && isset($_POST['months'])) {
+                                if ($_POST['year'] == $addYear) {
+                                    echo 'selected';
+                                }
+                            }
+                            ?> value="<?= $addYear ?>"><?php echo $year; ?></option><?php
+                                $addYear++;
+                            }
+                            ?>
                     </select>
                     <input type="submit" value="submit"/>
                 </form>
-                <?php if (isset($_POST['year']) && isset($_POST['months'])) { ?>
-                    <p><a href="http://p9/tp">RETURN</a></p> <?php
+                <p><a href="http://p9/tp">RETURN</a></p>
+                <?php
+                if (isset($_POST['year']) && isset($_POST['months'])) {
+                    $dateCalcul = 2021 - $_POST['year'];
                     $number = cal_days_in_month(CAL_GREGORIAN, $_POST['months'], $_POST['year']);
                     $numbDate = date('w', mktime(0, 0, 0, $_POST['months'], 1, $_POST['year']));
                     $total = $numbDate + $number;
-                    ?><h1>Calendrier du <?= $months[$_POST['months'] - 1] . ' ' . $_POST['year']; ?></h1>
+                    ?><h1>Calendrier du <?= $monthsArray[$_POST['months'] - 1] . ' ' . $dateCalcul; ?></h1>
                     <table>
                         <tr>
                             <th>Lundi</th>
@@ -53,7 +72,7 @@ $months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Ao
                                 for ($column = 0; $column <= 6; $column++) {
                                     $idNumb++;
                                     ?><td id="<?= $idNumb ?>" class="<?php
-                                    if ($idNumb <= $numbDate || $idNumb >= $total) {
+                                    if ($idNumb < $numbDate || $idNumb >= $total) {
                                         echo 'grey';
                                     }
                                     ?>"><?php
