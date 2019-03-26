@@ -41,7 +41,7 @@ $monthsArray = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet'
                             ?> value="<?= $addYear ?>"><?php echo $year; ?></option><?php
                                 $addYear++;
                             }
-                            ?>
+                            ?> 
                     </select>
                     <input type="submit" value="submit"/>
                 </form>
@@ -50,8 +50,10 @@ $monthsArray = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet'
                 if (isset($_POST['year']) && isset($_POST['months'])) {
                     $dateCalcul = 2021 - $_POST['year'];
                     $number = cal_days_in_month(CAL_GREGORIAN, $_POST['months'], $_POST['year']);
-                    $numbDate = date('w', mktime(0, 0, 0, $_POST['months'], 1, $_POST['year']));
-                    $total = $numbDate + $number;
+                    $date = $dateCalcul . '-' . $_POST['months'] . '-01';
+                    $unixTimestamp = strtotime($date);
+                    $dayOfWeek = date("N", $unixTimestamp);
+                    $total = $dayOfWeek + $number;
                     ?><h1>Calendrier du <?= $monthsArray[$_POST['months'] - 1] . ' ' . $dateCalcul; ?></h1>
                     <table>
                         <tr>
@@ -72,11 +74,11 @@ $monthsArray = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet'
                                 for ($column = 0; $column <= 6; $column++) {
                                     $idNumb++;
                                     ?><td id="<?= $idNumb ?>" class="<?php
-                                    if ($idNumb < $numbDate || $idNumb >= $total) {
+                                    if ($idNumb < $dayOfWeek || $idNumb >= $total) {
                                         echo 'grey';
                                     }
                                     ?>"><?php
-                                            if ($idNumb >= $numbDate && $idNumb < $total) {
+                                            if ($idNumb >= $dayOfWeek && $idNumb < $total) {
                                                 $dateNumb++;
                                                 echo $dateNumb;
                                             }
